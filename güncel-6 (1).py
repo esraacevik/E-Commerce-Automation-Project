@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 import tkinter as tk
 from tkinter import messagebox, filedialog
@@ -33,18 +35,18 @@ def excel_dosyasi_yükle():
             return
 
         # Geçersiz url'leri ayıkla ve uyarı ver
-        valid_urls = eski_urunler[eski_urunler['url'].apply(lambda x: isinstance(x, str) and x.startswith('http'))]
-        invalid_urls = eski_urunler[~eski_urunler.index.isin(valid_urls.index)]
+        gecerli_url = eski_urunler[eski_urunler['url'].apply(lambda x: isinstance(x, str) and x.startswith('http'))]
+        gecersiz_url = eski_urunler[~eski_urunler.index.isin(gecerli_url.index)]
 
-        if not invalid_urls.empty:
-            invalid_list = invalid_urls['url'].tolist()
+        if not gecersiz_url.empty:
+            gecersiz_url_listesi = gecersiz_url['url'].tolist()
             messagebox.showwarning(
                 "Uyarı",
-                f"Geçersiz URL'ler bulundu ve atlandı:\n{', '.join([str(url) for url in invalid_list])}"
+                f"Geçersiz URL'ler bulundu ve atlandı:\n{', '.join([str(url) for url in gecersiz_url_listesi])}"
             )
 
         # Geçerli url'leri kullanmaya devam et
-        eski_urunler = valid_urls.reset_index(drop=True)
+        eski_urunler = gecerli_url.reset_index(drop=True)
         gui_ustunde_goster()
 
     except Exception as e:
