@@ -58,3 +58,4 @@ Ancak Giriş yapmadan da uygulama kullanılabilir. Bunun için tek yapmanız ger
 Örneğin bu dosyadaki ürünleri deneyebilirsiniz.
 [v5.xlsx](https://github.com/user-attachments/files/18443642/v5.xlsx)
 
+<img width="446" alt="Panelin Görünümü" src="https://github.com/user-attachments/assets/d831810b-db94-4aa9-8b15-00cac2590446" />
