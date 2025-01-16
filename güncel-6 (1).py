@@ -14,29 +14,29 @@ import time
 
 
 # Ürün bilgilerini saklamak için bir liste
-products = []
+urunler = []
 # eski ürün verileri için liste
-old_products = []
+eski_urunler = []
 
 # Excel dosyasını yükleme
-def load_excel():
-    global old_products
+def excel_dosyasi_yükle():
+    global eski_urunler
     file_path = filedialog.askopenfilename(defaultextension=".xlsx", filetypes=[("Excel Dosyası", "*.xlsx")])
     if not file_path:
         return
 
     try:
         # Excel dosyasını oku
-        old_products = pd.read_excel(file_path)
+        eski_urunler = pd.read_excel(file_path)
 
         # url sütunundaki geçersiz url'leri kontrol et
-        if 'url' not in old_products.columns:
+        if 'url' not in eski_urunler.columns:
             messagebox.showerror("Hata", "Excel dosyasında 'url' sütunu bulunamadı.")
             return
 
         # Geçersiz url'leri ayıkla ve uyarı ver
-        valid_urls = old_products[old_products['url'].apply(lambda x: isinstance(x, str) and x.startswith('http'))]
-        invalid_urls = old_products[~old_products.index.isin(valid_urls.index)]
+        valid_urls = eski_urunler[eski_urunler['url'].apply(lambda x: isinstance(x, str) and x.startswith('http'))]
+        invalid_urls = eski_urunler[~eski_urunler.index.isin(valid_urls.index)]
 
         if not invalid_urls.empty:
             invalid_list = invalid_urls['url'].tolist()
@@ -46,27 +46,27 @@ def load_excel():
             )
 
         # Geçerli url'leri kullanmaya devam et
-        old_products = valid_urls.reset_index(drop=True)
-        display_excel_data_in_gui()
+        eski_urunler = valid_urls.reset_index(drop=True)
+        gui_ustunde_goster()
 
     except Exception as e:
         messagebox.showerror("Hata", f"Excel dosyası yüklenirken bir hata oluştu: {e}")
 
 
 # Excel verilerini Tkinter' da göster
-def display_excel_data_in_gui():
-    if not old_products.empty:
-        product_list.delete(1.0, tk.END)  # Önceki içerikleri temizle
+def gui_ustunde_goster():
+    if not eski_urunler.empty:
+        urunler_listesi.delete(1.0, tk.END)  # Önceki içerikleri temizle
 
-        for _, row in old_products.iterrows():
-            product_list.insert(tk.END, f"Ürün Adı: {row['name']}\nFiyat: {row['price']}\nURL: {row['url']}\n\n")
+        for _, row in eski_urunler.iterrows():
+            urunler_listesi.insert(tk.END, f"Ürün Adı: {row['name']}\nFiyat: {row['price']}\nURL: {row['url']}\n\n")
     else:
         messagebox.showerror("Hata", "Excel dosyasında veri yok!")
 
 
 # Ürün bilgilerini çekme ve listeleme
-def scrape_and_show(email, password):
-    global products  # Ürünleri globalde tutalım
+def bilgileri_cek_ve_goster(email, password):
+    global urunler  # Ürünleri globalde tutalım
 
     # Selenium WebDriver
     driver = webdriver.Chrome()
@@ -117,16 +117,16 @@ def scrape_and_show(email, password):
     #url = "https://www.zara.com/tr/tr/shop/cart"
     #driver.get(url)
 
-    products = []
+    urunler = []
 
     try:
         # Sepetteki ürünlerin bilgilerini çek
-        product_containers = WebDriverWait(driver, 20).until(
+        ürün_konteynerlari = WebDriverWait(driver, 20).until(
             EC.presence_of_all_elements_located(
                 (By.XPATH, "//div[contains(@class, 'shop-cart-item__details-container')]"))
         )
 
-        for container in product_containers:
+        for container in ürün_konteynerlari:
             try:
                 # Ürün adı bilgisi
                 product_name_element = container.find_element(By.XPATH,
@@ -146,7 +146,7 @@ def scrape_and_show(email, password):
                 print(f"URL: {product_url}")  # Kontrol etme amaçlı
 
                 # Ürün bilgilerini listeye ekle
-                products.append({
+                urunler.append({
                     'name': product_name,
                     'price': product_price,
                     'url': product_url
@@ -163,21 +163,21 @@ def scrape_and_show(email, password):
         driver.quit()
 
     # Ürün bilgilerini arayüzde göster
-    product_list.delete(1.0, tk.END)  # Önceki içerikleri temizle
-    for product in products:
-        product_list.insert(tk.END,
+    urunler_listesi.delete(1.0, tk.END)  # Önceki içerikleri temizle
+    for product in urunler:
+        urunler_listesi.insert(tk.END,
                             f"Ürün Adı: {product['name']}\nFiyat: {product['price']}\nURL: {product['url']}\n\n")
 
     # Ürünleri Excel dosyasına kaydetmek için kullanıcıya seçenek sun
     if messagebox.askyesno("Excel Kaydet", "Ürün verilerini Excel dosyasına kaydetmek ister misiniz?"):
-        save_to_excel()
+        excele_kaydet()
 
 
 # Excel'e kaydetme fonksiyonu
-def save_to_excel():
-    global products
-    if products:
-        df = pd.DataFrame(products)
+def excele_kaydet():
+    global urunler
+    if urunler:
+        df = pd.DataFrame(urunler)
         file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Dosyası", "*.xlsx")])
         if file_path:
             df.to_excel(file_path, index=False)
@@ -187,8 +187,8 @@ def save_to_excel():
 
 
 # Fiyat değişikliklerini kontrol etme fonksiyonu
-def check_price_changes():
-    if old_products.empty:
+def fiyat_degisikleri_kontrol_et():
+    if eski_urunler.empty:
         messagebox.showerror("Hata", "Lütfen önce Excel dosyasını yükleyin.")
         return
 
@@ -203,7 +203,7 @@ def check_price_changes():
     message = "Fiyat değişimleri:\n"
 
     try:
-        for _, row in old_products.iterrows():
+        for _, row in eski_urunler.iterrows():
             url = row['url']  # Excel dosyasındaki url
 
             if not isinstance(url, str) or not url.startswith("http"):
@@ -240,8 +240,8 @@ def check_price_changes():
 
 
 # ARAYÜZ
-def run_gui():
-    global product_list  # Global değişkenleri burada tanımlıyoruz
+def gui_calistir():
+    global urunler_listesi  # Global değişkenleri burada tanımlıyoruz
 
     root = tk.Tk()
     root.title("Mağaza Ürün Fiyat Takibi")
@@ -266,7 +266,7 @@ def run_gui():
     password_entry.pack(pady=5)
 
     # Fiyat verilerini çekme butonu
-    def fetch_products():
+    def verileri_cek():
         store = selected_store.get()  # Kullanıcının seçtiği mağaza
         email = email_entry.get()
         password = password_entry.get()
@@ -276,16 +276,16 @@ def run_gui():
             return
 
         if store == "ZARA":
-            scrape_and_show(email, password)  # ZARA için mevcut fonksiyon çağrılır
+            bilgileri_cek_ve_goster(email, password)  # ZARA için mevcut fonksiyon çağrılır
         else:
             messagebox.showinfo("Bilgi", f"{store} için işlem yapılmadı.")
 
-    fetch_button = tk.Button(root, text="Fiyat Verilerini Çek", command=fetch_products)
+    fetch_button = tk.Button(root, text="Fiyat Verilerini Çek", command=verileri_cek)
     fetch_button.pack(pady=10)
 
     # Ürünleri gösterecek yer
-    product_list = tk.Text(root, height=10, width=70)
-    product_list.pack(pady=10)
+    urunler_listesi = tk.Text(root, height=10, width=70)
+    urunler_listesi.pack(pady=10)
 
     load_button_label = tk.Label(root, text="Önceden Excel dosyası olarak kaydettiğiniz ürünlerin "
                                             "şu anki fiyatlarını görmek için sırasıyla şunları yapın:",
@@ -293,14 +293,14 @@ def run_gui():
     load_button_label.pack(pady=5)  # Metni butonun üstüne yerleştir
 
     # Excel dosyasını yükle butonu
-    load_button = tk.Button(root, text="1. Excel'den Verileri Yükle", command=load_excel)
+    load_button = tk.Button(root, text="1. Excel'den Verileri Yükle", command=excel_dosyasi_yükle)
     load_button.pack(pady=10)
 
     # Fiyat değişikliklerini kontrol etme butonu
-    check_button = tk.Button(root, text="2. Fiyat Değişikliklerini Kontrol Et", command=check_price_changes)
+    check_button = tk.Button(root, text="2. Fiyat Değişikliklerini Kontrol Et", command=fiyat_degisikleri_kontrol_et)
     check_button.pack(pady=10)
 
     root.mainloop()
 
 # Arayüzü çalıştır
-run_gui()
+gui_calistir()
