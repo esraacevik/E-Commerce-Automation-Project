@@ -48,7 +48,7 @@ Proje kurulumunu yapmak için aşağıdaki adımları takip edin:
     - Tüm verileri Excel dosyası olarak dışa aktarabilirsiniz ancak bu bir zorunluluk değildir değişimleri anlık olarak panelde görebilirsiniz..
     - Hesabınıza giriş yapıp sepetinizdeki ürünler üzerinden işlemler yapın.
     - Beğeniler listenizdeki ürünlerden fiyat düşüşü olması durumunda sepetinize ekleyin.
-NOTLAR
+-NOTLAR-
 Bu projede sitenin artık izin vermemesinden dolayı hesaba giriş yapamıyorum. Hesaba giriş yapılamadığından dolayı sepetteki ürünler üzerinde işlemler
 gerçekleştirilemiyor.Giriş yapıldığı durumda uygulama otomatik olarak sepete gidip sepet verilerimi anlık olarak karşılaştırıyor ve fiyat düşüşleri olduğunda ya da stok güncellendiğinde beğenilen
 listemdeki ürünler otomatik olarak sepete ekleniyor.
@@ -58,4 +58,5 @@ Ancak Giriş yapmadan da uygulama kullanılabilir. Bunun için tek yapmanız ger
 Örneğin bu dosyadaki ürünleri deneyebilirsiniz.
 [v5.xlsx](https://github.com/user-attachments/files/18443642/v5.xlsx)
 
+Program çalışıtğında panel şu şekilde görülür.
 <img width="446" alt="Panelin Görünümü" src="https://github.com/user-attachments/assets/d831810b-db94-4aa9-8b15-00cac2590446" />
