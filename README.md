@@ -1,62 +1,46 @@
-# Mağazalar için Ürün Fiyat Takibi ve Alısverisi Otomatiklestirme Projesi
+# Product Price Tracking and Shopping Automation Project for Stores
 
-Bu proje, inditex magazalardaki (şu anlık sadece zara için uygulanabilir.) hesabınıza giriş yaparak sepetinizde bulunan veya beğenilenler listenize
-eklemiş olduğunuz ürünlerin fiyatlarını ve mevcut stok durumlarını takip eden,fiyat değişikliklerini kontrol eden bu verileri Excel
-dosyasına kaydeden bir uygulamayı hayata geçirir. 
-Beğeniler listenizde olan ürünleri fiyat değişikliği veya stok güncellemesi olması durumunda sepetinize otomatik olarak ekler.
+This project enables an application that logs into your account on Inditex stores (currently applicable only to Zara) and tracks the prices and stock availability of the products in your cart or favorites list. It monitors price changes and records this data in an Excel file. Additionally, if there is a price change or stock update for an item in your favorites list, it automatically adds the item to your cart.
 
 
-## Özellikler
-İki aşamalı bir uygulamadır.
-İsterseniz hesabınıza giriş yapıp sepetinize mudahale edebilir isterseniz de giriş yapmadan daha öncesinde kaydettiğiniz bir excel dosyasını yükleyip
-fiyat ve stok takibini kolayca yapabilirsiniz.
-- **Excel Dosyası Yükleme**: (Var olan ürün ve fiyat bilgilerini Excel dosyasından yükleme). Bu aşama zorunlu değildir. Eğer giriş yapmadan uygulamayı kullanmak
--  isterseniz dosya yüklemelisiniz ancak hesabınıza giriş yaparsanız herhangi bir dosya eklemenize gerek yok. Giriş yaptığınız durumda
--  otomatik olarak sepetteki ve beğenilen listenizdeki veriler üzerinden işlemler yapılır.
-- **Fiyat Takibi**: ZARA sepetinizdeki ürünlerin adı, fiyatı ve URL bilgilerini çekme.
-- **Excel'e Kaydetme**: (Toplanan verileri Excel dosyası olarak dışa aktarma). Bu aşama zorunlu değildir. Bilgileri anlık olarak GUİ ekranında da görüntüleyebilirsiniz.
-- **Kullanıcı Dostu Arayüz**: Tkinter tabanlı grafik arayüz.
+Features
+This is a two-step application. You can either log into your account and manage your cart or simply upload a previously saved Excel file to track prices and stock without logging in.
+
+Upload Excel File: Load existing product and price data from an Excel file. This step is optional. If you prefer to use the application without logging in, you must upload a file. However, if you log in, no file upload is necessary as the application will automatically retrieve data from your cart and favorites list.
+Price Tracking: Retrieve product names, prices, and URLs from your Zara shopping cart.
+Save to Excel: Export collected data as an Excel file. This step is optional; you can also view the data instantly on the GUI screen.
+User-Friendly Interface: A Tkinter-based graphical interface.*: Tkinter tabanlı grafik arayüz.
 
 ## Gereksinimler
-Bu projeyi çalıştırmak için aşağıdaki yazılım ve aracılar gereklidir:
-
-- **Python 3.8 veya daha üstü**
-- **Chrome Tarayıcısı ve ChromeDriver**: Seleniumun aktif olması için gereklidir.
-- **Python Kütüphaneleri**:
-  - pandas
-  - tkinter
-  - selenium
+To run this project, you need the following software and tools:
+Python 3.8 or later
+Chrome Browser and ChromeDriver: Required for Selenium to function properly.
+Python Libraries:
+pandas
+tkinter
+selenium
 
 ## Kurulum
-Proje kurulumunu yapmak için aşağıdaki adımları takip edin:
+Installation
+Follow these steps to set up the project:
 
-1. Gerekli Python kütüphanelerini yükleyin:
-
-3. ChromeDriver'ı indirin ve sisteminizde kurulu Chrome tarayıcısı ile uyumlu sürümünü kullanın:
+Install the required Python libraries:
+Download and install ChromeDriver, ensuring it matches your installed Chrome browser version:
     - [ChromeDriver İndir](https://developer.chrome.com/docs/chromedriver/downloads?hl=tr)
-    - ChromeDriver'ı bir dizine kopyalayın ve PATH çevre değişkenine ekleyin.
+    -Copy ChromeDriver to a directory and add it to your system’s PATH environment variable.
+    -Download and run the project files.
 
-4. Proje dosyasını indirip çalıştırın:
+## Usage
+Start the program and fill in the necessary fields on the interface.
+Enter your email and password, select a store, and log in to your account.
+You can perform the following actions:
+When you log in, the products in your cart are automatically saved to an Excel file. If you save this file and later click the "Check Price Differences" button, you will be notified if there are any price changes.
+Fetch and list new product prices.
+Export all data as an Excel file (optional—you can also view real-time changes in the panel).
+Manage your cart and perform operations based on the products in it.
+Add products from your favorites list to your cart if their price drops.
 
-## Kullanım
-1. Programı başlatın ve açılan arayüzde gerekli alanları doldurun.
-2. E-posta ve şifre bilgilerinizi girerek bir mağaza seçin ve hesabınızla oturum açın.
-3. Aşağıdaki işlemleri gerçekleştirebilirsiniz:
-    - Hesabınıza giriş yaptığınızda sepetinizdeki ürünler anlık olarak excel dosyasına eklenir. O dosyayı kaydedip sonrasında fiyat verilerindeki farklılıkları
-    - gör butonuna basarsanız fiyat değişikliği oldugu durumda size blgilendirme yapılır.
-    - Yeni ürün fiyatlarını çekip listeleyin.
-    - Tüm verileri Excel dosyası olarak dışa aktarabilirsiniz ancak bu bir zorunluluk değildir değişimleri anlık olarak panelde görebilirsiniz..
-    - Hesabınıza giriş yapıp sepetinizdeki ürünler üzerinden işlemler yapın.
-    - Beğeniler listenizdeki ürünlerden fiyat düşüşü olması durumunda sepetinize ekleyin.
--NOTLAR-
-Bu projede sitenin artık izin vermemesinden dolayı hesaba giriş yapamıyorum. Hesaba giriş yapılamadığından dolayı sepetteki ürünler üzerinde işlemler
-gerçekleştirilemiyor.Giriş yapıldığı durumda uygulama otomatik olarak sepete gidip sepet verilerimi anlık olarak karşılaştırıyor ve fiyat düşüşleri olduğunda ya da stok güncellendiğinde beğenilen
-listemdeki ürünler otomatik olarak sepete ekleniyor.
-Ancak şu anda sitenin güvenlik protokolünden dolayı hesaba giriş yapıldıktan kısa süre sonra siteden çıkış yapılıyor.
-Ancak Giriş yapmadan da uygulama kullanılabilir. Bunun için tek yapmanız gereken bir excel dosyası yüklemek. Uygulama dosyadaki ürünleri aratacak ve stok- fiyat durumlarını takip edecektir.
+-NOTES-
 
-Örneğin bu dosyadaki ürünleri deneyebilirsiniz.
-[v5.xlsx](https://github.com/user-attachments/files/18443642/v5.xlsx)
-
-Program çalıştığında panel şu şekilde görülür.
+When the program runs, the panel appears as follows.
 <img width="446" alt="Panelin Görünümü" src="https://github.com/user-attachments/assets/d831810b-db94-4aa9-8b15-00cac2590446" />
